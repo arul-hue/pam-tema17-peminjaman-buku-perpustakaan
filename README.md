@@ -1,12 +1,12 @@
-# PAM - Peminjaman Buku Perpustakaan
+# Peminjaman Buku Perpustakaan
 
 Proyek ini merupakan tugas mata kuliah **Pengembangan Aplikasi Mobile (IF25-22017)** - Teknik Informatika, Institut Teknologi Sumatera (ITERA).
 
-Aplikasi ini dibangun menggunakan **Kotlin Multiplatform (KMP)** dan **Compose Multiplatform** untuk dapat berjalan di berbagai platform (Android, Desktop, iOS).
+Aplikasi ini dibangun menggunakan **Kotlin Multiplatform (KMP)** dan **Compose Multiplatform** untuk platform Android dan Desktop.
 
 ---
 
-## 👥 Anggota Kelompok
+## Anggota Kelompok
 
 | No | Nama | NIM | Peran |
 |---|---|---|---|
@@ -16,7 +16,21 @@ Aplikasi ini dibangun menggunakan **Kotlin Multiplatform (KMP)** dan **Compose M
 
 ---
 
-## 📱 Tampilan Aplikasi (Screenshot)
+## Progres Pengerjaan Proyek
+
+| Minggu | Topik / Fitur | Status | Catatan / Commit |
+| :---: | --- | :---: | --- |
+| 1 | Setup Proyek KMP & Tampilan Informasi Kelompok | Selesai | Kerangka KMP jalan di Android & Desktop |
+| 2 | Model Data Peminjaman & Perubahan Status | Belum | - |
+| 3 | Layar Daftar Buku & Peminjaman | Belum | - |
+| 4 | Form Peminjaman Baru dengan ViewModel | Belum | - |
+| 5 | Navigasi Antar Layar & Menu Bawah | Belum | - |
+| 6 | Integrasi API / Data Server | Belum | - |
+| 7 | Penyimpanan Lokal / Offline Mode | Belum | - |
+
+---
+
+## Tampilan Aplikasi
 
 | Android | Desktop |
 | :---: | :---: |
@@ -24,9 +38,15 @@ Aplikasi ini dibangun menggunakan **Kotlin Multiplatform (KMP)** dan **Compose M
 
 ---
 
-## 🛠️ Cara Menjalankan Proyek
+## Cara Menjalankan Proyek
 
 ### 1. Desktop (JVM)
-Jalankan perintah berikut pada terminal di akar folder proyek:
 ```bash
-./gradlew :composeApp:run
+./gradlew :desktopApp:run
+```
+
+### 2. Android
+Jalankan modul `androidApp` melalui Android Studio atau terminal:
+```bash
+./gradlew :androidApp:installDebug
+```
