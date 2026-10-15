@@ -32,9 +32,9 @@ Aplikasi ini dibangun menggunakan **Kotlin Multiplatform (KMP)** dan **Compose M
 
 ## Tampilan Aplikasi
 
-|                   Android                   |                   Desktop                   |
-| :-----------------------------------------: | :-----------------------------------------: |
-| ![Android Screenshot](asset/Ss_android.jpg) | ![Desktop Screenshot](asset/Ss_desktop.png) |
+|                   Android                    |                   Desktop                    |
+| :------------------------------------------: | :------------------------------------------: |
+| ![Android Screenshot](asset/ss1_android.jpg) | ![Desktop Screenshot](asset/ss2_desktop.png) |
 
 ---
 
