@@ -44,7 +44,7 @@ fun App() {
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text("Anggota 1: Syahrul Afwan - 124140096")
-                Text("Anggota 2: NAMA - NIM")
+                Text("Anggota 2: Hafidz Raihan Putra Anfa - 124140108              ")
                 Text("Anggota 3: NAMA - NIM")
             }
         }
