@@ -1,9 +1,11 @@
 package org.example.project.model
 
-fun StatusPeminjaman.label(): String = when (this) {
-    is StatusPeminjaman.Diajukan -> "Menunggu persetujuan petugas"
-    is StatusPeminjaman.Dipinjam -> "Dipinjamkan oleh $petugas"
-    is StatusPeminjaman.Dikembalikan -> "Dikembalikan: $catatan"
+sealed class StatusPeminjaman {
+    data object Diajukan : StatusPeminjaman()
+    data class Dipinjam(
+        val petugas: String
+    ) : StatusPeminjaman()
+    data class Dikembalikan(
+        val catatan: String
+    ) : StatusPeminjaman()
 }
-
-fun Peminjaman.ringkas(): String = "#$id ${buku.judul}, dipinjam $peminjam"

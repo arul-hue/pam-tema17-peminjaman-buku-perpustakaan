@@ -1,11 +1,10 @@
 package org.example.project.model
 
-sealed class StatusPeminjaman {
-    data object Diajukan : StatusPeminjaman()
-    data class Dipinjam(
-        val petugas: String
-    ) : StatusPeminjaman()
-    data class Dikembalikan(
-        val catatan: String
-    ) : StatusPeminjaman()
-}
+data class Peminjaman(
+    val id: Int,
+    val buku: Buku,
+    val peminjam: String,
+    val tanggalPinjam: String,
+    val tanggalKembali: String?,   // satu-satunya nullable: kosong sampai buku dikembalikan
+    val status: StatusPeminjaman = StatusPeminjaman.Diajukan
+)
