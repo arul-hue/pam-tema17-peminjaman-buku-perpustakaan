@@ -1,4 +1,6 @@
 package org.example.project
 
-class DemoMain {
-}
+import kotlinx.coroutines.runBlocking
+import org.example.project.data.demoStatus
+
+fun main() = runBlocking { demoStatus() }
