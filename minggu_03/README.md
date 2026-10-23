@@ -3,110 +3,92 @@
 ## Deskripsi Singkat Tema
 
 Aplikasi peminjaman buku perpustakaan membantu mahasiswa mengajukan peminjaman
-buku dan memantau statusnya. Setiap peminjaman melewati tiga tahap: **diajukan**,
-**dipinjam** (disetujui petugas), lalu **dikembalikan**. Pada checkpoint ini
-data masih berupa data palsu (dummy), belum terhubung ke server.
+buku dan memantau statusnya, sehingga tidak perlu bertanya langsung ke petugas.
+Setiap peminjaman melewati tiga tahap: **diajukan**, **dipinjam** (disetujui
+petugas), lalu **dikembalikan**.
+
+## Fokus Pengerjaan Pertemuan 3: Dasar Compose Multiplatform
+
+Menampilkan data peminjaman sebagai layar daftar: kartu peminjaman dengan label
+status berwarna, 12 data dummy yang diurutkan dari yang terbaru, dan tombol
+"Tambah Peminjaman" yang belum berfungsi. Data masih berupa data palsu (dummy).
 
 ## Anggota Kelompok
 
-| No | Nama                    | NIM       | Peran           |
-|----|-------------------------|-----------|-----------------|
-| 1  | Syahrul Afwan           | 124140096 | Ketua Kelompok  |
-| 2  | Hafidz Raihan Putra Anfa | 124140108 | Anggota         |
-| 3  | Jundi Lamtara           | 124140190 | Anggota         |
+| No  | Nama                     | NIM       | Peran          |
+| --- | ------------------------ | --------- | -------------- |
+| 1   | Syahrul Afwan            | 124140096 | Ketua Kelompok |
+| 2   | Hafidz Raihan Putra Anfa | 124140108 | Anggota        |
+| 3   | Jundi Lamtara            | 124140190 | Anggota        |
 
 ## Pembagian Kerja
 
-| Checkpoint | Bagian | Penanggung jawab | Status |
-|------------|--------|------------------|--------|
-| 1 | Model data tema: 2 data class + 1 sealed class status di `commonMain/model` | Syahrul Afwan | Selesai |
-| 2 | Sumber data palsu: implementasi `Sumber` untuk entitas utama, dengan `delay` dan Flow perubahan status | Hafidz Raihan Putra Anfa | Belum |
-| 3 | Bukti berjalan: fungsi `main` yang mencetak perubahan status ke konsol, dan README | Jundi Lamtara | Belum |
+| Bagian                            | Penanggung jawab         |
+| --------------------------------- | ------------------------ |
+| Kartu peminjaman dan label status | Hafidz Raihan Putra Anfa |
+| Data dummy dan pengurutan         | Jundi Lamtara            |
+| Layar daftar, FAB, dan README     | Syahrul Afwan            |
 
-## Checkpoint 1: Model Data
+## 1. Kartu Peminjaman
 
-Lokasi: `shared/src/commonMain/kotlin/org/example/project/model/`
+Lokasi: `shared/src/commonMain/kotlin/org/example/project/ui/KartuPeminjaman.kt`
 
-| File | Isi |
-|------|-----|
-| `Buku.kt` | `data class Buku` (entitas pendukung) |
-| `Peminjaman.kt` | `data class Peminjaman` (entitas utama) |
-| `StatusPeminjaman.kt` | `sealed class StatusPeminjaman` dengan 3 nilai |
-| `PeminjamanExt.kt` | extension function `label()` dan `ringkas()` |
+| Composable        | Isi                                                                                                                                                                           |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `KartuPeminjaman` | `Card` berisi judul buku (tebal, satu baris, terpotong dengan elipsis), nama peminjam, tanggal pinjam, dan label status. Punya parameter `onKlik` dengan nilai bawaan kosong. |
+| `LabelStatus`     | Label berbentuk pil dengan warna sesuai status, teksnya dari `label()` di model.                                                                                              |
 
-### Entitas
+Warna label status:
 
-**Buku** (pendukung): `id: Int`, `judul: String`, `penulis: String`, `tahunTerbit: Int`
+| Status         | Warna       | Teks label                      |
+| -------------- | ----------- | ------------------------------- |
+| `Diajukan`     | Abu krem    | Menunggu persetujuan petugas    |
+| `Dipinjam`     | Kuning muda | Dipinjamkan oleh (nama petugas) |
+| `Dikembalikan` | Hijau muda  | Dikembalikan: (isi catatan)     |
 
-**Peminjaman** (utama): `id: Int`, `buku: Buku`, `peminjam: String`,
-`tanggalPinjam: String`, `tanggalKembali: String?`, `status: StatusPeminjaman`
+`when` pada `LabelStatus` memeriksa semua subtipe sealed class, sehingga kalau
+nanti ada status baru, kompilator akan memberi tahu bagian yang perlu diubah.
 
-`tanggalKembali` adalah satu-satunya kolom nullable, karena buku yang belum
-dikembalikan memang belum punya tanggal kembali.
+## 2. Data Dummy
 
-### Status Peminjaman (sealed class)
+Lokasi: `shared/src/commonMain/kotlin/org/example/project/data/DaftarPeminjamanContoh.kt`
 
-| Status | Data yang dibawa | Arti |
-|--------|------------------|------|
-| `Diajukan` | tidak ada | Menunggu persetujuan petugas |
-| `Dipinjam` | `petugas: String` | Disetujui dan dipinjamkan oleh petugas |
-| `Dikembalikan` | `catatan: String` | Buku sudah dikembalikan |
+Berisi 10 buku dan 12 data peminjaman dengan campuran ketiga status. Daftar
+yang ditampilkan (`daftarPeminjamanContoh`) diolah dengan fungsi koleksi:
 
-Alur status: `Diajukan` -> `Dipinjam` -> `Dikembalikan`.
+| Fungsi                                    | Tujuan                                                                          |
+| ----------------------------------------- | ------------------------------------------------------------------------------- |
+| `sortedByDescending { it.tanggalPinjam }` | Peminjaman terbaru tampil paling atas                                           |
+| `mapIndexed { ... copy(id = index + 1) }` | Id disusun ulang 1 sampai 12 supaya unik, dipakai sebagai `key` di `LazyColumn` |
 
-## Checkpoint 2: Sumber Data Palsu
+## 3. Layar Daftar
 
-_Belum dikerjakan. Akan diisi oleh Hafidz Raihan Putra Anfa._
+Lokasi: `shared/src/commonMain/kotlin/org/example/project/App.kt`
 
-Rencana: `interface Sumber<T>` dan `SumberPeminjamanPalsu` di package
-`org.example.project.data`, memakai `delay` dan Flow yang memancarkan
-perubahan status peminjaman.
+| Bagian                         | Penjelasan                                                                                                             |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| `Scaffold`                     | Kerangka layar, menampung FAB dan memberi `innerPadding` agar isi tidak tertutup status bar                            |
+| `LazyColumn`                   | Menggambar kartu yang terlihat saja, `key = { it.id }`, jarak antarkartu 12 dp                                         |
+| Judul                          | Satu `item` di awal daftar, memuat judul aplikasi dan jumlah peminjaman                                                |
+| `contentPadding` bawah 88 dp   | Ruang untuk FAB agar kartu terakhir tidak tertutup                                                                     |
+| `ExtendedFloatingActionButton` | Tombol "Tambah Peminjaman" di pojok kanan bawah, `onClick` sengaja kosong karena belum diwajibkan di modul pertemuan 3 |
 
-## Checkpoint 3: Bukti Berjalan
+Satu kode yang sama dipakai di Android dan desktop, keduanya memanggil `App()`
+dari modul `shared`.
 
-_Belum dikerjakan. Akan diisi oleh Jundi Lamtara._
+## Tangkapan Layar
 
-### Contoh Keluaran Konsol
-
-_Template di bawah adalah format yang diharapkan, berdasarkan fungsi `label()`
-di model. Setelah `Main.kt` selesai dan dijalankan, ganti dengan keluaran konsol
-yang asli._
-
-Format yang diharapkan (tiap baris muncul bertahap karena ada `delay`):
-
-```
-Sebelum collect
-Menunggu persetujuan petugas              <- status Diajukan (langsung)
-Dipinjamkan oleh <nama petugas>           <- status Dipinjam (sekitar 1,5 detik kemudian)
-Dikembalikan: <isi catatan>               <- status Dikembalikan (sekitar 2 detik kemudian)
-Sesudah collect
-```
-
-Keterangan:
-
-| Baris keluaran | Berasal dari |
-|----------------|--------------|
-| `Menunggu persetujuan petugas` | `StatusPeminjaman.Diajukan.label()` |
-| `Dipinjamkan oleh ...` | `StatusPeminjaman.Dipinjam(petugas).label()` |
-| `Dikembalikan: ...` | `StatusPeminjaman.Dikembalikan(catatan).label()` |
-| `Sesudah collect` | tercetak setelah Flow selesai, karena `collect` ikut menunggu |
-
-**Keluaran asli dari hasil menjalankan program:**
-
-```
-(tempel keluaran konsol yang asli di sini)
-```
+| Android                                   | Desktop                                     |
+| ----------------------------------------- | ------------------------------------------- |
+| ![Tampilan Android](asset/mg03_andro.png) | ![Tampilan Desktop](asset/mg03_desktop.png) |
 
 ## Cara Menjalankan
 
-Buka proyek di Android Studio, lalu jalankan di terminal:
+Buka proyek di Android Studio, lalu:
+
+- **Android:** pilih konfigurasi `androidApp`, pilih perangkat atau emulator, lalu tekan Run.
+- **Desktop**, jalankan di terminal:
 
 ```powershell
-.\gradlew.bat :shared:compileKotlinJvm
-```
-
-Pastikan dependency coroutines ada di `commonMain` modul `shared`:
-
-```kotlin
-implementation(libs.kotlinx.coroutines.core)
+.\gradlew.bat :desktopApp:run
 ```

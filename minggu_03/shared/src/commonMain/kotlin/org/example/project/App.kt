@@ -1,51 +1,58 @@
-
 package org.example.project
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.example.project.data.daftarPeminjamanContoh
+import org.example.project.ui.KartuPeminjaman
 
 @Composable
 fun App() {
     MaterialTheme {
-        Column(
-            modifier = Modifier
-                .safeContentPadding()
-                .fillMaxSize()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            // Nama tema aplikasi
-            Text("Peminjaman Buku Perpustakaan")
-
-            // Nama platform otomatis
-            Text("Platform: ${getPlatform().name}")
-
-            //Spacer(modifier = Modifier.padding(8.dp))
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Bagian Tentang
-            Text("Tentang Anggota")
-
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+        Scaffold(
+            floatingActionButton = {
+                ExtendedFloatingActionButton(onClick = { /* sengaja kosong */ }) {
+                    Text("Tambah Peminjaman")
+                }
+            }
+        ) { innerPadding ->
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                // bottom 88.dp, ruang untuk FAB supaya kartu terakhir tidak tertutup
+                contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 88.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                Text("Anggota 1: Syahrul Afwan - 124140096")
-                Text("Anggota 2: Hafidz Raihan Putra Anfa - 124140108              ")
-                Text("Anggota 3: Jundi Lamtara - 124140190")
+                // Judul aplikasi (ikut bergulir bersama daftar)
+                item {
+                    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                        Text(
+                            text = "Peminjaman Buku Perpustakaan",
+                            style = MaterialTheme.typography.headlineMedium
+                        )
+                        Text(
+                            text = "${daftarPeminjamanContoh.size} peminjaman",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+
+                // id sudah unik karena di-reindex di daftarPeminjamanContoh (mapIndexed)
+                items(daftarPeminjamanContoh, key = { it.id }) { peminjaman ->
+                    KartuPeminjaman(peminjaman)
+                }
             }
         }
     }

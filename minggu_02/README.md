@@ -3,36 +3,42 @@
 ## Deskripsi Singkat Tema
 
 Aplikasi peminjaman buku perpustakaan membantu mahasiswa mengajukan peminjaman
-buku dan memantau statusnya. Setiap peminjaman melewati tiga tahap: **diajukan**,
-**dipinjam** (disetujui petugas), lalu **dikembalikan**. Pada checkpoint ini
-data masih berupa data palsu (dummy), belum terhubung ke server.
+buku dan memantau statusnya, sehingga tidak perlu bertanya langsung ke petugas.
+Setiap peminjaman melewati tiga tahap: **diajukan**, **dipinjam** (disetujui
+petugas), lalu **dikembalikan**.
+
+## Fokus Pengerjaan Pertemuan 2: Model Data, Coroutines, dan Flow
+
+Membuat model data peminjaman (`Buku`, `Peminjaman`, dan status), lalu sumber data
+palsu dengan Coroutines dan Flow untuk mensimulasikan perubahan status, dibuktikan
+lewat keluaran konsol. Data masih berupa data palsu (dummy), belum terhubung ke server.
 
 ## Anggota Kelompok
 
-| No | Nama                    | NIM       | Peran           |
-|----|-------------------------|-----------|-----------------|
-| 1  | Syahrul Afwan           | 124140096 | Ketua Kelompok  |
-| 2  | Hafidz Raihan Putra Anfa | 124140108 | Anggota         |
-| 3  | Jundi Lamtara           | 124140190 | Anggota         |
+| No  | Nama                     | NIM       | Peran          |
+| --- | ------------------------ | --------- | -------------- |
+| 1   | Syahrul Afwan            | 124140096 | Ketua Kelompok |
+| 2   | Hafidz Raihan Putra Anfa | 124140108 | Anggota        |
+| 3   | Jundi Lamtara            | 124140190 | Anggota        |
 
 ## Pembagian Kerja
 
-| Checkpoint | Bagian | Penanggung jawab | Status |
-|------------|--------|------------------|--------|
-| 1 | Model data tema: 2 data class + 1 sealed class status di `commonMain/model` | Syahrul Afwan | Selesai |
-| 2 | Sumber data palsu: implementasi `Sumber` untuk entitas utama, dengan `delay` dan Flow perubahan status | Hafidz Raihan Putra Anfa | Belum |
-| 3 | Bukti berjalan: fungsi `main` yang mencetak perubahan status ke konsol, dan README | Jundi Lamtara | Belum |
+| Bagian                                                     | Penanggung jawab         |
+| ---------------------------------------------------------- | ------------------------ |
+| Model data: 2 data class dan 1 sealed class status         | Syahrul Afwan            |
+| Sumber data palsu dengan `delay` dan Flow perubahan status | Hafidz Raihan Putra Anfa |
+| Bukti berjalan: keluaran konsol dan README                 | Jundi Lamtara            |
 
-## Checkpoint 1: Model Data
+## 1. Model Data
 
 Lokasi: `shared/src/commonMain/kotlin/org/example/project/model/`
 
-| File | Isi |
-|------|-----|
-| `Buku.kt` | `data class Buku` (entitas pendukung) |
-| `Peminjaman.kt` | `data class Peminjaman` (entitas utama) |
+| File                  | Isi                                            |
+| --------------------- | ---------------------------------------------- |
+| `Buku.kt`             | `data class Buku` (entitas pendukung)          |
+| `Peminjaman.kt`       | `data class Peminjaman` (entitas utama)        |
 | `StatusPeminjaman.kt` | `sealed class StatusPeminjaman` dengan 3 nilai |
-| `PeminjamanExt.kt` | extension function `label()` dan `ringkas()` |
+| `PeminjamanExt.kt`    | extension function `label()` dan `ringkas()`   |
 
 ### Entitas
 
@@ -46,55 +52,61 @@ dikembalikan memang belum punya tanggal kembali.
 
 ### Status Peminjaman (sealed class)
 
-| Status | Data yang dibawa | Arti |
-|--------|------------------|------|
-| `Diajukan` | tidak ada | Menunggu persetujuan petugas |
-| `Dipinjam` | `petugas: String` | Disetujui dan dipinjamkan oleh petugas |
-| `Dikembalikan` | `catatan: String` | Buku sudah dikembalikan |
+| Status         | Data yang dibawa  | Arti                                   |
+| -------------- | ----------------- | -------------------------------------- |
+| `Diajukan`     | tidak ada         | Menunggu persetujuan petugas           |
+| `Dipinjam`     | `petugas: String` | Disetujui dan dipinjamkan oleh petugas |
+| `Dikembalikan` | `catatan: String` | Buku sudah dikembalikan                |
 
 Alur status: `Diajukan` -> `Dipinjam` -> `Dikembalikan`.
 
-## Checkpoint 2: Sumber Data Palsu
+## 2. Sumber Data Palsu
 
-_Belum dikerjakan. Akan diisi oleh Hafidz Raihan Putra Anfa._
+Lokasi: `shared/src/commonMain/kotlin/org/example/project/data/`
 
-Rencana: `interface Sumber<T>` dan `SumberPeminjamanPalsu` di package
-`org.example.project.data`, memakai `delay` dan Flow yang memancarkan
-perubahan status peminjaman.
+| File                       | Isi                                                                                     |
+| -------------------------- | --------------------------------------------------------------------------------------- |
+| `Sumber.kt`                | `interface Sumber<T>` dengan `suspend fun ambil(id)` dan `fun pantau(id): Flow<T>`      |
+| `SumberPeminjamanPalsu.kt` | Implementasi `Sumber<Peminjaman>` dengan data palsu, plus fungsi `contohPeminjaman(id)` |
 
-## Checkpoint 3: Bukti Berjalan
+| Fungsi       | Perilaku                                                                                                                                                                          |
+| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ambil(id)`  | `delay` 1 detik, lalu mengembalikan satu peminjaman contoh                                                                                                                        |
+| `pantau(id)` | Flow yang memancarkan tiga status bertahap: `Diajukan` (langsung), `Dipinjam` oleh Bu Rina (setelah 1,5 detik), lalu `Dikembalikan` dengan tanggal kembali (setelah 2 detik lagi) |
 
-_Belum dikerjakan. Akan diisi oleh Jundi Lamtara._
+## 3. Bukti Berjalan
+
+Lokasi: `DemoStatus.kt` (`shared/.../data/`) dan `DemoMain.kt` (`shared/src/jvmMain/`).
+`main` memanggil `demoStatus()` di dalam `runBlocking`, yang meng-collect Flow
+`pantau` dan mencetak `label()` tiap status.
 
 ### Contoh Keluaran Konsol
 
-_Template di bawah adalah format yang diharapkan, berdasarkan fungsi `label()`
-di model. Setelah `Main.kt` selesai dan dijalankan, ganti dengan keluaran konsol
-yang asli._
-
-Format yang diharapkan (tiap baris muncul bertahap karena ada `delay`):
+Format keluaran (tiap baris muncul bertahap karena ada `delay`):
 
 ```
 Sebelum collect
 Menunggu persetujuan petugas              <- status Diajukan (langsung)
-Dipinjamkan oleh <nama petugas>           <- status Dipinjam (sekitar 1,5 detik kemudian)
-Dikembalikan: <isi catatan>               <- status Dikembalikan (sekitar 2 detik kemudian)
+Dipinjamkan oleh Bu Rina                  <- status Dipinjam (sekitar 1,5 detik kemudian)
+Dikembalikan: Dikembalikan tepat waktu    <- status Dikembalikan (sekitar 2 detik kemudian)
 Sesudah collect
 ```
 
-Keterangan:
-
-| Baris keluaran | Berasal dari |
-|----------------|--------------|
-| `Menunggu persetujuan petugas` | `StatusPeminjaman.Diajukan.label()` |
-| `Dipinjamkan oleh ...` | `StatusPeminjaman.Dipinjam(petugas).label()` |
-| `Dikembalikan: ...` | `StatusPeminjaman.Dikembalikan(catatan).label()` |
-| `Sesudah collect` | tercetak setelah Flow selesai, karena `collect` ikut menunggu |
+| Baris keluaran                 | Berasal dari                                                  |
+| ------------------------------ | ------------------------------------------------------------- |
+| `Menunggu persetujuan petugas` | `StatusPeminjaman.Diajukan.label()`                           |
+| `Dipinjamkan oleh ...`         | `StatusPeminjaman.Dipinjam(petugas).label()`                  |
+| `Dikembalikan: ...`            | `StatusPeminjaman.Dikembalikan(catatan).label()`              |
+| `Sesudah collect`              | tercetak setelah Flow selesai, karena `collect` ikut menunggu |
 
 **Keluaran asli dari hasil menjalankan program:**
 
 ```
-(tempel keluaran konsol yang asli di sini)
+Sebelum collect
+Menunggu persetujuan petugas
+Dipinjamkan oleh Bu Rina
+Dikembalikan: Dikembalikan tepat waktu
+Sesudah collect
 ```
 
 ## Cara Menjalankan
