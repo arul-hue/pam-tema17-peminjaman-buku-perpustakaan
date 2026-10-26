@@ -3,8 +3,10 @@ package org.example.project.data
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import org.example.project.model.Buku
 import org.example.project.model.Peminjaman
+import org.example.project.model.StatusPeminjaman
 
 /**
  * Pemilik: Jundi. Satu-satunya file data yang diisi Jundi untuk sumber daftar.
@@ -18,8 +20,24 @@ class SumberDaftarPeminjamanPalsu(
     override val daftar: StateFlow<List<Peminjaman>> = _daftar.asStateFlow()
 
     override fun tambah(buku: Buku, peminjam: String, tanggalPinjam: String) {
-        // TODO Jundi: id berikutnya (maxOf id + 1), status Diajukan, tanggalKembali null,
-        //  _daftar.update { ... }, urutkan lagi dari tanggalPinjam terbaru.
+        // update { } aman dipanggil berulang: lambda diulang otomatis kalau ada perubahan bersamaan.
+        _daftar.update { sekarang ->
+            // id terbesar + 1 (bukan size + 1, supaya tetap unik walau id tidak berurutan)
+            val idBaru = (sekarang.maxOfOrNull { it.id } ?: 0) + 1
+
+            val baru = Peminjaman(
+                id = idBaru,
+                buku = buku,
+                peminjam = peminjam,
+                tanggalPinjam = tanggalPinjam,
+                tanggalKembali = null,
+                status = StatusPeminjaman.Diajukan
+            )
+
+            // Data baru ditaruh di depan sebelum diurutkan. sortedByDescending itu stabil,
+            // jadi kalau tanggalnya sama dengan data lain, data baru tetap di atas.
+            (listOf(baru) + sekarang).sortedByDescending { it.tanggalPinjam }
+        }
     }
 }
 
