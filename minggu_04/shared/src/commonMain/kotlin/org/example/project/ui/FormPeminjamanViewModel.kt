@@ -2,6 +2,7 @@ package org.example.project.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,6 +20,9 @@ class FormPeminjamanViewModel(
     private val _uiState = MutableStateFlow(FormPeminjamanUiState())
     val uiState: StateFlow<FormPeminjamanUiState> = _uiState.asStateFlow()
 
+    // Disimpan supaya proses simpan bisa dibatalkan kalau form di-reset
+    private var jobSimpan: Job? = null
+
     fun ubahBuku(buku: Buku) =
         _uiState.update { it.copy(bukuDipilih = buku) }
 
@@ -34,7 +38,7 @@ class FormPeminjamanViewModel(
         if (!state.bisaSimpan) return
 
         _uiState.update { it.copy(sedangMenyimpan = true) }
-        viewModelScope.launch {
+        jobSimpan = viewModelScope.launch {
             delay(800) // simulasi proses kirim, minggu 6 diganti Ktor
             sumber.tambah(buku, state.peminjam.trim(), state.tanggalPinjam)
             _uiState.update { it.copy(sedangMenyimpan = false, tersimpan = true) }
@@ -42,6 +46,7 @@ class FormPeminjamanViewModel(
     }
 
     fun reset() {
+        jobSimpan?.cancel() // batal di tengah proses simpan: data tidak jadi ditambah
         _uiState.value = FormPeminjamanUiState()
     }
 }
