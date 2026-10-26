@@ -188,9 +188,9 @@ navigasi yang sebenarnya dibahas di pertemuan berikutnya.
 
 **Form terisi**
 
-| Android                                                    | Desktop                                                    |
-| ---------------------------------------------------------- | ---------------------------------------------------------- |
-| <img src="asset/ss_form_android.png" width="250" alt="Form Android"> | <img src="asset/ss_form_desk.png" width="450" alt="Form Desktop"> |
+| Android                                                              | Desktop                                                            |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| <img src="asset/ss_form_desk.png" width="250" alt="Form Android"> | <img src="asset/ss_form_android.png" width="450" alt="Form Desktop"> |
 
 **Daftar setelah data ditambah**
 
