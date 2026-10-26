@@ -9,7 +9,7 @@ import org.example.project.model.Peminjaman
 import org.example.project.model.StatusPeminjaman
 
 /**
- * Pemilik: Jundi. Satu-satunya file data yang diisi Jundi untuk sumber daftar..
+ * Pemilik: Jundi. Satu-satunya file data yang diisi Jundi untuk sumber daftar.
  * Jangan ubah SumberPeminjamanPalsu.kt milik minggu 3.
  */
 class SumberDaftarPeminjamanPalsu(
