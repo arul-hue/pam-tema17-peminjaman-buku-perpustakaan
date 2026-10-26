@@ -9,7 +9,7 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 /**
- * Tes untuk SumberDaftarPeminjamanPalsu.tambah().
+ * Tes untuk SumberDaftarPeminjamanPalsu.tambah()..
  * Setiap tes membuat instance sendiri (BUKAN singleton sumberDaftarPeminjaman),
  * supaya tes tidak saling memengaruhi. tambah() bukan suspend, jadi tanpa coroutine.
  */
