@@ -5,10 +5,6 @@ import org.example.project.model.Buku
 
 private val formatTanggal = Regex("""\d{4}-\d{2}-\d{2}""")
 
-/**
- * KONTRAK, DIBEKUKAN. Pemilik: Syahrul.
- * Hafidz hanya MEMBACA state ini. bisaSimpan dan tanggalValid dihitung, tidak disimpan.
- */
 data class FormPeminjamanUiState(
     val bukuDipilih: Buku? = null,
     val peminjam: String = "",
