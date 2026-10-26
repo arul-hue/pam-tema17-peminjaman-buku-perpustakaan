@@ -186,10 +186,17 @@ navigasi yang sebenarnya dibahas di pertemuan berikutnya.
 
 ## Tangkapan Layar
 
-|                              | Android                                        | Desktop                                     |
-| ---------------------------- |------------------------------------------------|---------------------------------------------|
-| Form terisi                  | ![Form Android](asset/ss_form_android.png)     | ![Form Desktop](asset/ss_form_desk.png)     |
-| Daftar setelah data ditambah | ![Daftar Android](asset/ss_daftar_android.png) | ![Daftar Desktop](asset/ss_daftar_desk.png) |
+**Form terisi**
+
+| Android                                                    | Desktop                                                    |
+| ---------------------------------------------------------- | ---------------------------------------------------------- |
+| <img src="asset/ss_form_android.png" width="250" alt="Form Android"> | <img src="asset/ss_form_desk.png" width="450" alt="Form Desktop"> |
+
+**Daftar setelah data ditambah**
+
+| Android                                                        | Desktop                                                        |
+| -------------------------------------------------------------- | -------------------------------------------------------------- |
+| <img src="asset/ss_daftar_android.png" width="250" alt="Daftar Android"> | <img src="asset/ss_daftar_desk.png" width="450" alt="Daftar Desktop"> |
 
 ## Cara Menjalankan
 
