@@ -2,26 +2,35 @@ package org.example.project
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import org.example.project.nav.RuteBeranda
+import org.example.project.nav.RuteForm
 import org.example.project.ui.DaftarPeminjamanScreen
 import org.example.project.ui.FormPeminjamanScreen
 
 @Composable
 fun App() {
     MaterialTheme {
-        // rememberSaveable: form tidak menutup sendiri saat layar diputar
-        var tampilkanForm by rememberSaveable { mutableStateOf(false) }
+        val nav = rememberNavController()
 
-        if (tampilkanForm) {
-            FormPeminjamanScreen(
-                onSelesai = { tampilkanForm = false },
-                onBatal = { tampilkanForm = false }
-            )
-        } else {
-            DaftarPeminjamanScreen(onTambah = { tampilkanForm = true })
+        NavHost(
+            navController = nav,
+            startDestination = RuteBeranda
+        ) {
+            composable<RuteBeranda> {
+                DaftarPeminjamanScreen(
+                    onTambah = { nav.navigate(RuteForm) }
+                )
+            }
+
+            composable<RuteForm> {
+                FormPeminjamanScreen(
+                    onSelesai = { nav.popBackStack() },
+                    onBatal = { nav.popBackStack() }
+                )
+            }
         }
     }
 }
