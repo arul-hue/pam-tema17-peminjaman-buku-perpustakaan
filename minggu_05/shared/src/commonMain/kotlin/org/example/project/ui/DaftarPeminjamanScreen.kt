@@ -21,6 +21,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun DaftarPeminjamanScreen(
     onTambah: () -> Unit,
+    onBukaDetail: (Int) -> Unit = {},
     vm: DaftarPeminjamanViewModel = viewModel { DaftarPeminjamanViewModel() }
 ) {
     val daftar by vm.daftar.collectAsState()
@@ -54,7 +55,10 @@ fun DaftarPeminjamanScreen(
             }
 
             items(daftar, key = { it.id }) { peminjaman ->
-                KartuPeminjaman(peminjaman)
+                KartuPeminjaman(
+                    peminjaman = peminjaman,
+                    onKlik = { onBukaDetail(peminjaman.id) }
+                )
             }
         }
     }
