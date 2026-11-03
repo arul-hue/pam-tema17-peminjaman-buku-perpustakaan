@@ -37,6 +37,7 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.compose.uiTooling)
 
+
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -50,6 +51,8 @@ kotlin {
             implementation(libs.navigation.compose)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.compose.iconsCore)
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
