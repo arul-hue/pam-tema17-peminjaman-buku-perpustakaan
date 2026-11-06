@@ -1,8 +1,11 @@
 package org.example.project.data
 
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import org.example.project.model.Buku
 import org.example.project.model.Peminjaman
@@ -39,6 +42,13 @@ class SumberDaftarPeminjamanPalsu(
             (listOf(baru) + sekarang).sortedByDescending { it.tanggalPinjam }
         }
     }
+
+    // Dicari dari daftar yang sama dengan layar daftar, berdasarkan id peminjaman.
+    // Bukan indeks, jadi pengurutan tidak memengaruhi hasil. Tidak ketemu: null, tanpa data pengganti.
+    override fun pantau(id: Int): Flow<Peminjaman?> =
+        _daftar
+            .map { daftar -> daftar.firstOrNull { it.id == id } }
+            .distinctUntilChanged()
 }
 
 /**

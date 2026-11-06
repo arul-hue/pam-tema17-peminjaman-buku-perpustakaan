@@ -1,5 +1,6 @@
 package org.example.project.data
 
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import org.example.project.model.Buku
 import org.example.project.model.Peminjaman
@@ -19,4 +20,11 @@ interface SumberDaftarPeminjaman {
      * lalu daftar diurutkan lagi dari tanggalPinjam terbaru.
      */
     fun tambah(buku: Buku, peminjam: String, tanggalPinjam: String)
+
+    /**
+     * Pertemuan 5. Mengamati satu peminjaman berdasarkan ID PEMINJAMAN
+     * (bukan id buku, bukan posisi di daftar).
+     * Nilai null berarti ID tidak ditemukan. Aliran ikut berubah bila daftar berubah.
+     */
+    fun pantau(id: Int): Flow<Peminjaman?>
 }
