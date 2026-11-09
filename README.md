@@ -25,6 +25,7 @@ mengajukan peminjaman, dan memantau statusnya sampai buku dikembalikan.
 |   2    | Model Data Peminjaman dan Perubahan Status           | Model `Buku`, `Peminjaman`, dan status; sumber data palsu dengan Flow           | [README Minggu 2](minggu_02/README.md) |
 |   3    | Dasar Compose Multiplatform: Layar Daftar Peminjaman | Layar daftar peminjaman dengan 12 data contoh dan label status berwarna         | [README Minggu 3](minggu_03/README.md) |
 |   4    | State dan MVVM: Form Tambah Peminjaman               | Form tambah dengan ViewModel dan StateFlow; data baru langsung muncul di daftar | [README Minggu 4](minggu_04/README.md) |
+|   5    | Navigasi Antar Layar                                 | Lima layar terhubung, detail sesuai ID peminjaman, dan menu bawah               | [README Minggu 5](minggu_05/README.md) |
 
 Pembagian kerja, tangkapan layar, dan cara menjalankan aplikasi ada di README
 folder minggu masing-masing.
