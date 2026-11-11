@@ -9,12 +9,16 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.example.project.data.SumberDaftarPeminjaman
+import kotlinx.coroutines.CancellationException
 import org.example.project.data.sumberDaftarPeminjaman
 import org.example.project.model.Buku
 
 class FormPeminjamanViewModel(
-    private val sumber: SumberDaftarPeminjaman = sumberDaftarPeminjaman
+    private val simpanPeminjaman: suspend (Buku, String, String) -> Unit =
+        { buku, peminjam, tanggalPinjam ->
+            delay(800)
+            sumberDaftarPeminjaman.tambah(buku, peminjam, tanggalPinjam)
+        }
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(FormPeminjamanUiState())
@@ -37,11 +41,22 @@ class FormPeminjamanViewModel(
         val buku = state.bukuDipilih ?: return
         if (!state.bisaSimpan) return
 
-        _uiState.update { it.copy(sedangMenyimpan = true) }
+        _uiState.update { it.copy(sedangMenyimpan = true, pesan = null) }
+
         jobSimpan = viewModelScope.launch {
-            delay(800) // simulasi proses kirim, minggu 6 diganti Ktor
-            sumber.tambah(buku, state.peminjam.trim(), state.tanggalPinjam)
-            _uiState.update { it.copy(sedangMenyimpan = false, tersimpan = true) }
+            try {
+                simpanPeminjaman(buku, state.peminjam.trim(), state.tanggalPinjam)
+                _uiState.update { it.copy(sedangMenyimpan = false, tersimpan = true) }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        sedangMenyimpan = false,
+                        pesan = "Peminjaman gagal disimpan. Coba lagi."
+                    )
+                }
+            }
         }
     }
 
