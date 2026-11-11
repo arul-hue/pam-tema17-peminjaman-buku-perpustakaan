@@ -10,31 +10,31 @@ Pertemuan 5 melanjutkan layar Daftar dan Form dari minggu 4. Navigasi menggunaka
 
 ## Anggota Kelompok
 
-| No. | Nama | NIM | Peran |
-| --- | --- | --- | --- |
-| 1 | Syahrul Afwan | 124140096 | Ketua Kelompok |
-| 2 | Hafidz Raihan Putra Anfa | 124140108 | Anggota |
-| 3 | Jundi Lamtara | 124140190 | Anggota |
+| No. | Nama                     | NIM       | Peran          |
+| --- | ------------------------ | --------- | -------------- |
+| 1   | Syahrul Afwan            | 124140096 | Ketua Kelompok |
+| 2   | Hafidz Raihan Putra Anfa | 124140108 | Anggota        |
+| 3   | Jundi Lamtara            | 124140190 | Anggota        |
 
 ## Pembagian Kerja
 
-| Bagian | Penanggung Jawab |
-| --- | --- |
-| Rute bertipe, pengiriman ID dari Daftar, integrasi lima layar di `App.kt`, dan dokumentasi | Syahrul Afwan |
-| Menu bawah, pengaturan perpindahan tab, serta layar Asisten dan Profil | Hafidz Raihan Putra Anfa |
-| Sumber data bersama, pencarian berdasarkan ID, ViewModel dan layar Detail, serta tes data | Jundi Lamtara |
+| Bagian                                                                                     | Penanggung Jawab         |
+| ------------------------------------------------------------------------------------------ | ------------------------ |
+| Rute bertipe, pengiriman ID dari Daftar, integrasi lima layar di `App.kt`, dan dokumentasi | Syahrul Afwan            |
+| Menu bawah, pengaturan perpindahan tab, serta layar Asisten dan Profil                     | Hafidz Raihan Putra Anfa |
+| Sumber data bersama, pencarian berdasarkan ID, ViewModel dan layar Detail, serta tes data  | Jundi Lamtara            |
 
 ## 1. Rute dan Peta Navigasi
 
 `nav/Rute.kt` mendefinisikan rute dengan `@Serializable`. `App.kt` mendaftarkan kelima rute di `NavHost`, dengan Beranda sebagai layar awal.
 
-| Rute | Layar | Cara Membuka |
-| --- | --- | --- |
-| `RuteBeranda` | Daftar Peminjaman | Layar awal atau tab Beranda |
-| `RuteDetail(id)` | Detail Peminjaman | Ketuk kartu peminjaman di Daftar |
-| `RuteForm` | Form Tambah Peminjaman | Tekan Tambah Peminjaman di Daftar |
-| `RuteAsisten` | Asisten Perpustakaan | Tab Asisten |
-| `RuteProfil` | Profil | Tab Profil |
+| Rute             | Layar                  | Cara Membuka                      |
+| ---------------- | ---------------------- | --------------------------------- |
+| `RuteBeranda`    | Daftar Peminjaman      | Layar awal atau tab Beranda       |
+| `RuteDetail(id)` | Detail Peminjaman      | Ketuk kartu peminjaman di Daftar  |
+| `RuteForm`       | Form Tambah Peminjaman | Tekan Tambah Peminjaman di Daftar |
+| `RuteAsisten`    | Asisten Perpustakaan   | Tab Asisten                       |
+| `RuteProfil`     | Profil                 | Tab Profil                        |
 
 ```mermaid
 flowchart TD
@@ -67,17 +67,13 @@ Asisten masih berupa tampilan awal. Profil menggunakan data contoh pengguna.
 
 ## Tangkapan Layar
 
-Ambil tangkapan layar dari aplikasi minggu 5 dan simpan di folder `asset/` dengan nama berikut.
-
-| Layar | Android | Desktop |
-| --- | --- | --- |
-| Daftar Peminjaman | `ss_daftar_android.png` | `ss_daftar_desk.png` |
-| Detail Peminjaman | `ss_detail_android.png` | `ss_detail_desk.png` |
-| Form Tambah Peminjaman | `ss_form_android.png` | `ss_form_desk.png` |
-| Asisten Perpustakaan | `ss_asisten_android.png` | `ss_asisten_desk.png` |
-| Profil | `ss_profil_android.png` | `ss_profil_desk.png` |
-
-Setelah gambar tersedia, ganti nama file pada tabel dengan tag gambar seperti `<img src="asset/ss_detail_android.png" width="220" alt="Detail Peminjaman di Android">`.
+| Layar                  | Android                                                                       | Desktop                                                                    |
+| ---------------------- | ----------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Daftar Peminjaman      | <img src="asset/ss_daftar_android.png" width="160" alt="Daftar di Android">   | <img src="asset/ss_daftar_desk.png" width="460" alt="Daftar di Desktop">   |
+| Detail Peminjaman      | <img src="asset/ss_detail_android.png" width="160" alt="Detail di Android">   | <img src="asset/ss_detail_desk.png" width="460" alt="Detail di Desktop">   |
+| Form Tambah Peminjaman | <img src="asset/ss_form_android.png" width="160" alt="Form di Android">       | <img src="asset/ss_form_desk.png" width="460" alt="Form di Desktop">       |
+| Asisten Perpustakaan   | <img src="asset/ss_asisten_android.png" width="160" alt="Asisten di Android"> | <img src="asset/ss_asisten_desk.png" width="460" alt="Asisten di Desktop"> |
+| Profil                 | <img src="asset/ss_profil_android.png" width="160" alt="Profil di Android">   | <img src="asset/ss_profil_desk.png" width="460" alt="Profil di Desktop">   |
 
 ## Cara Menjalankan
 
